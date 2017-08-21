@@ -14,3 +14,19 @@ if [ "$1" = 'redis-server' -a "$(id -u)" = '0' ]; then
 fi
 
 exec "$@"
+
+# Start redis
+./redis-server --daemonize yes
+status=$?
+if [ $status -ne 0 ]; then
+  echo "Failed to start my_first_process: $status"
+  exit $status
+fi
+
+# Start the second process
+./celery worker
+status=$?
+if [ $status -ne 0 ]; then
+  echo "Failed to start my_second_process: $status"
+  exit $status
+fi

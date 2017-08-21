@@ -74,11 +74,11 @@ RUN mkdir /data && chown redis:redis /data
 VOLUME /data
 WORKDIR /data
 
-COPY docker-entrypoint.sh /usr/local/bin/
-ENTRYPOINT ["docker-entrypoint.sh"]
+#COPY docker-entrypoint.sh /usr/local/bin/
+#ENTRYPOINT ["docker-entrypoint.sh"]
 
 EXPOSE 6379
-CMD ["redis-server"]
+#CMD ["redis-server"]
 
 ### redis-end ###
 
@@ -100,6 +100,12 @@ RUN { \
 ENV CELERY_BROKER_URL redis://localhost:6379/0
 
 USER user
-CMD ["celery", "worker"]
+
+COPY docker-entrypoint.sh /usr/local/bin/
+ENTRYPOINT ["docker-entrypoint.sh"]
+
+CMD ./docker-entrypoint.sh
+
+#CMD ["celery", "worker"]
 
 ### Celery-end ###
