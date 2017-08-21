@@ -93,11 +93,11 @@ RUN pip install celery=="$CELERY_VERSION"
 
 RUN { \
 	echo 'import os'; \
-	echo "BROKER_URL = os.environ.get('CELERY_BROKER_URL', 'redis://localhost:6379')"; \
+	echo "BROKER_URL = os.environ.get('CELERY_BROKER_URL', 'redis://localhost:6379/0')"; \
 } > celeryconfig.py
 
 # --link redis
-ENV CELERY_BROKER_URL redis://localhost:6379
+ENV CELERY_BROKER_URL redis://localhost:6379/0
 
 USER user
 CMD ["celery", "worker"]
